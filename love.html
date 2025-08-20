@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,18 +12,10 @@
       justify-content: center;
       align-items: center;
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-      background-size: 800% 800%;
-      animation: gradientBG 15s ease infinite;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #fad0c4);
       overflow: hidden;
       flex-direction: column;
       text-align: center;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     .page {
@@ -34,7 +25,6 @@
       align-items: center;
       animation: fadeIn 0.8s ease forwards;
       width: 100%;
-      z-index: 2;
     }
 
     .active {
@@ -89,6 +79,13 @@
       background-color: #c82333;
     }
 
+    img {
+      width: 200px;
+      border-radius: 15px;
+      margin-top: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.9); }
       to { opacity: 1; transform: scale(1); }
@@ -106,19 +103,22 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
+    .final img {
+      width: 250px;
+      margin-top: 20px;
+    }
+
     /* Falling Hearts */
     .heart {
       position: fixed;
       top: -10px;
       font-size: 24px;
       animation: fall linear forwards;
-      z-index: 1;
-      pointer-events: none;
     }
 
     @keyframes fall {
       to {
-        transform: translateY(100vh);
+        transform: translateY(110vh);
         opacity: 0;
       }
     }
@@ -135,58 +135,54 @@
       <button class="yes-btn" id="yesBtn" onclick="sayYes()">Yes 🥰</button>
       <button class="no-btn" onclick="sayNo()">No 😢</button>
     </div>
+
+    <img src="https://media.tenor.com/0AVbKGY_MxMAAAAj/love-cute.gif" alt="Cute dancing gif">
   </div>
 
   <!-- Page 2 -->
   <div id="page2" class="page final">
     <h1>Yay ❤️ I love you so much! 🥰💍💘</h1>
-    <div class="emoji-row">💖💞😍💘😘💕💖</div>
+    <img src="https://media.tenor.com/bw8jj2dK7rYAAAAC/love-bear.gif" alt="Love bear gif">
   </div>
 
   <!-- Sounds -->
-  <audio id="happySound" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
-  <audio id="crySound" src="https://www.fesliyanstudios.com/play-mp3/438" preload="auto"></audio>
+  <audio id="crySound" src="https://www.myinstants.com/media/sounds/sad-trombone.mp3"></audio>
+  <audio id="happySound" src="https://www.myinstants.com/media/sounds/tuturu_1.mp3"></audio>
 
   <script>
     const yesBtn = document.getElementById("yesBtn");
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
-    const happySound = document.getElementById("happySound");
     const crySound = document.getElementById("crySound");
+    const happySound = document.getElementById("happySound");
 
     function sayYes() {
       page1.classList.remove("active");
       page1.style.display = "none";
       page2.classList.add("active");
       page2.style.display = "flex";
-
       happySound.play();
-
-      // Spawn falling hearts
-      for (let i = 0; i < 20; i++) {
-        createHeart();
-      }
+      spawnHearts();
     }
 
     function sayNo() {
       let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
       yesBtn.style.fontSize = (currentSize + 10) + "px";
-
       crySound.play();
     }
 
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerText = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (3 + Math.random() * 2) + "s";
-      document.body.appendChild(heart);
-
-      setTimeout(() => {
-        heart.remove();
-      }, 5000);
+    function spawnHearts() {
+      for (let i = 0; i < 20; i++) {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }
     }
   </script>
 </body>
 </html>
+
