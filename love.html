@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,71 +7,98 @@
   <title>Do you like me, sha?</title>
   <style>
     body {
+      margin: 0;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #ffe6f0;
       font-family: "Poppins", sans-serif;
+      background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      background-size: 800% 800%;
+      animation: gradientBG 15s ease infinite;
+      overflow: hidden;
+      flex-direction: column;
       text-align: center;
     }
 
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .page {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.8s ease forwards;
+      width: 100%;
+      z-index: 2;
+    }
+
+    .active {
+      display: flex;
+    }
+
     h1 {
-      font-size: 36px;
-      color: #ff4d88;
+      font-size: 42px;
+      color: #fff;
       margin-bottom: 30px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .emoji-row {
+      font-size: 28px;
+      margin-bottom: 15px;
     }
 
     .buttons {
       display: flex;
       gap: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+    }
+
+    .yes-btn, .no-btn {
+      border: none;
+      padding: 18px 40px;
+      font-size: 22px;
+      font-weight: bold;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     }
 
     .yes-btn {
-      font-size: 60px;
-      padding: 25px 50px;
       background-color: #28a745;
       color: white;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
     }
 
     .no-btn {
-      font-size: 18px;
-      padding: 12px 25px;
       background-color: #dc3545;
       color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
     }
 
-    .page {
-      display: none;
+    .yes-btn:hover {
+      transform: scale(1.1);
+      background-color: #218838;
     }
 
-    .active {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    .no-btn:hover {
+      background-color: #c82333;
     }
 
-    img {
-      margin-top: 25px;
-      width: 200px;
-      border-radius: 15px;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
+    /* Final Page */
     .final h1 {
-      font-size: 40px;
-      color: #ff1a75;
-      animation: pop 0.7s ease;
+      font-size: 46px;
+      color: #fff;
+      animation: pop 0.6s ease;
     }
 
     @keyframes pop {
@@ -78,45 +106,86 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    .final img {
-      width: 250px;
-      margin-top: 20px;
+    /* Falling Hearts */
+    .heart {
+      position: fixed;
+      top: -10px;
+      font-size: 24px;
+      animation: fall linear forwards;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
   <!-- Page 1 -->
   <div id="page1" class="page active">
+    <div class="emoji-row">🌸✨🥰💕😍✨🌸</div>
     <h1>Do you like me, sha? 💖</h1>
+    <div class="emoji-row">💞😊💌🥺💘😘💞</div>
+
     <div class="buttons">
-      <button class="yes-btn" id="yesBtn" onclick="sayYes()">Yes</button>
-      <button class="no-btn" onclick="sayNo()">No</button>
+      <button class="yes-btn" id="yesBtn" onclick="sayYes()">Yes 🥰</button>
+      <button class="no-btn" onclick="sayNo()">No 😢</button>
     </div>
-    <img src="https://media.tenor.com/0AVbKGY_MxMAAAAj/love-cute.gif" alt="Cute dancing gif">
   </div>
 
   <!-- Page 2 -->
   <div id="page2" class="page final">
-    <h1>Yay ❤️ I love you so much!</h1>
-    <img src="https://media.tenor.com/bw8jj2dK7rYAAAAC/love-bear.gif" alt="Love bear gif">
+    <h1>Yay ❤️ I love you so much! 🥰💍💘</h1>
+    <div class="emoji-row">💖💞😍💘😘💕💖</div>
   </div>
+
+  <!-- Sounds -->
+  <audio id="happySound" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
+  <audio id="crySound" src="https://www.fesliyanstudios.com/play-mp3/438" preload="auto"></audio>
 
   <script>
     const yesBtn = document.getElementById("yesBtn");
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
+    const happySound = document.getElementById("happySound");
+    const crySound = document.getElementById("crySound");
 
     function sayYes() {
       page1.classList.remove("active");
       page1.style.display = "none";
       page2.classList.add("active");
       page2.style.display = "flex";
+
+      happySound.play();
+
+      // Spawn falling hearts
+      for (let i = 0; i < 20; i++) {
+        createHeart();
+      }
     }
 
     function sayNo() {
       let currentSize = parseInt(window.getComputedStyle(yesBtn).fontSize);
-      yesBtn.style.fontSize = (currentSize + 15) + "px";
-      yesBtn.style.padding = "30px 60px";
+      yesBtn.style.fontSize = (currentSize + 10) + "px";
+
+      crySound.play();
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 2) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
     }
   </script>
 </body>
