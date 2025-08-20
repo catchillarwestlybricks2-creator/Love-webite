@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For You, Sharah 💖</title>
+  <meta name="description" content="A sweet little page to ask: Sharah, will you be my player two?" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='16' width='64' height='64' fill='%23ff5da8'/%3E%3Ctext x='50%25' y='56%25' font-size='36' text-anchor='middle' fill='white'%3E💖%3C/text%3E%3C/svg%3E">
+  <style>
+    :root{
+      --bg: #0f0a1f;
+      --panel: #1a1232;
+      --accent: #ff6ec7;
+      --accent-2:#7cf7ff;
+      --text: #fff7fb;
+      --muted:#cdb8cf;
+      --ring: rgba(255,110,199,.4);
+      --good:#7ef19f;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); background:
+        radial-gradient(900px 500px at 70% -10%, rgba(124,247,255,.15), transparent 60%),
+        radial-gradient(900px 600px at 0% 110%, rgba(255,110,199,.15), transparent 60%),
+        var(--bg);
+      font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .container{width:min(940px,92%); margin-inline:auto}
+    header{padding:22px 0; position:sticky; top:0; backdrop-filter: blur(10px) saturate(1.1); background:linear-gradient(180deg, rgba(15,10,31,.9), rgba(15,10,31,.55)); border-bottom:1px solid rgba(255,110,199,.2)}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.4px}
+    .logo{width:38px; height:38px; display:grid; place-items:center; border-radius:12px; background:linear-gradient(135deg, var(--accent), #ff3df0); box-shadow:0 0 22px rgba(255,110,199,.35)}
+    main{padding:28px 0 60px}
+    .hero{display:grid; gap:20px; grid-template-columns:1fr; align-items:center}
+    @media (min-width: 900px){ .hero{grid-template-columns: 1.1fr .9fr} }
+    .panel{background:linear-gradient(180deg, rgba(26,18,50,.9), rgba(26,18,50,.7)); border:1px solid rgba(255,110,199,.18); border-radius:18px; box-shadow:0 10px 50px rgba(0,0,0,.35)}
+    .pad{padding:22px}
+    h1{font-size: clamp(30px, 4vw + 8px, 52px); line-height:1.05; margin:0}
+    .gradient{background:linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .subtitle{color:var(--muted)}
+    .ask{margin-top:10px; font-size:1.1rem}
+    .cta{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; position:relative}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; min-width:120px; padding:12px 18px; border-radius:14px; border:1px solid transparent; font-weight:800; cursor:pointer}
+    .btn.yes{background:var(--accent); color:#2a0d20; box-shadow:0 12px 30px rgba(255,110,199,.28)}
+    .btn.yes:hover{filter:brightness(1.08)}
+    .btn.no{background:transparent; color:var(--text); border-color:rgba(255,255,255,.18)}
+    .btn.no:hover{border-color:var(--accent)}
+    .note{font-size:12px; color:var(--muted)}
+
+    .card{padding:18px; border-radius:16px; border:1px solid rgba(255,255,255,.1); background:linear-gradient(180deg, rgba(26,18,50,.8), rgba(26,18,50,.55))}
+    .items{display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr))}
+    footer{padding:36px 0 60px; color:var(--muted); border-top:1px solid rgba(255,255,255,.12)}
+
+    /* Confetti hearts */
+    .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden}
+    .heart{position:absolute; font-size:24px; animation: fall 3s linear forwards}
+    @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0}}
+
+    /* Accessibility helpers */
+    .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+  </style>
+</head>
+<body>
+  <header class="container">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">💖</div>
+      <div>For <span id="recipientLabel">Sharah Abubo</span></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1><span class="gradient">Hey <span id="recipientName">Sharah</span>,</span> would you be my player two?</h1>
+        <p class="subtitle">I made this little page just for you. If you feel the same way, hit the big button. If not, it's totally okay — your choice matters and I'll always respect it. 💐</p>
+        <p class="ask"><strong>So… do you like me?</strong></p>
+        <div class="cta" id="ctaArea">
+          <button class="btn yes" id="yesBtn" aria-label="Yes, I like you">Yes 💘</button>
+          <button class="btn no" id="noBtn" aria-label="No, I don't" aria-describedby="noHint">Not really</button>
+          <span id="noHint" class="sr">This button moves around playfully but you can still choose it.</span>
+        </div>
+        <p class="note">(The "Not really" button might play hard to get… just like me sometimes 😅)</p>
+      </div>
+      <div class="panel pad">
+        <h3 style="margin:0 0 8px">A few reasons I admire you</h3>
+        <div class="items">
+          <div class="card">Your smile can fix a bad day.</div>
+          <div class="card">You’re kind and real — that matters most.</div>
+          <div class="card">Every chat with you feels like sunshine.</div>
+          <div class="card">I want to cheer on your dreams.</div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:22px">
+      <div class="panel pad">
+        <h2 style="margin:0 0 6px">Leave me a note (optional)</h2>
+        <p class="subtitle" style="margin:0 0 14px">If you want to say something back, you can type it here. This is a demo — it doesn’t send anywhere.</p>
+        <form onsubmit="event.preventDefault(); fakeSubmit(this)">
+          <label for="msg" class="sr">Your message</label>
+          <textarea id="msg" rows="4" placeholder="Write anything you want…" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.18); background:#130c26; color:var(--text); outline:none" onfocus="this.style.boxShadow='0 0 0 4px var(--ring)';" onblur="this.style.boxShadow='none'"></textarea>
+          <div style="display:flex; gap:12px; margin-top:12px; align-items:center; justify-content:space-between">
+            <span class="note">Your words matter to me.</span>
+            <button class="btn no" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <footer>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px">
+      <div>Made with 💜 by <strong id="senderName">Westly</strong></div>
+      <div>© <span id="year"></span></div>
+    </div>
+  </footer>
+
+  <script>
+    /** Customize names here **/
+    const recipient = 'Sharah Abubo';
+    const sender = 'Westly';
+
+    // Set names in UI
+    document.getElementById('recipientLabel').textContent = recipient;
+    document.getElementById('recipientName').textContent = recipient.split(' ')[0] || recipient;
+    document.getElementById('senderName').textContent = sender;
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Playful No button: moves but stays reachable
+    const noBtn = document.getElementById('noBtn');
+    const ctaArea = document.getElementById('ctaArea');
+
+    function moveNo(){
+      const area = ctaArea.getBoundingClientRect();
+      const maxX = Math.max(0, area.width - noBtn.offsetWidth);
+      const maxY = Math.max(0, 140); // a little vertical wiggle room
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      noBtn.style.position = 'relative';
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    // Move on hover/focus/click attempt
+    ['mouseenter','focus','mousedown','touchstart'].forEach(evt => {
+      noBtn.addEventListener(evt, (e)=>{
+        moveNo();
+      });
+    });
+
+    // Confetti hearts on YES
+    const yesBtn = document.getElementById('yesBtn');
+    const confetti = document.getElementById('confetti');
+
+    yesBtn.addEventListener('click', () => {
+      celebrate();
+      yesBtn.disabled = true;
+      yesBtn.textContent = 'Yay! 💞';
+    });
+
+    function celebrate(){
+      const hearts = ['💖','💞','💘','💝','💗','💓'];
+      for(let i=0;i<60;i++){
+        const span = document.createElement('span');
+        span.className = 'heart';
+        span.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        span.style.left = Math.random()*100 + 'vw';
+        span.style.top = '-40px';
+        span.style.transition = 'transform 3s linear';
+        confetti.appendChild(span);
+        // remove after animation
+        setTimeout(()=> span.remove(), 3200);
+      }
+      // Sweet modal
+      setTimeout(showModal, 200);
+    }
+
+    function showModal(){
+      const modal = document.createElement('div');
+      modal.setAttribute('role','dialog');
+      modal.setAttribute('aria-modal','true');
+      Object.assign(modal.style, {
+        position:'fixed', inset:'0', display:'grid', placeItems:'center',
+        background:'rgba(0,0,0,.6)', zIndex:999
+      });
+      const box = document.createElement('div');
+      box.className = 'panel pad';
+      box.style.maxWidth = '520px';
+      box.innerHTML = `
+        <h2 style="margin-top:0">You said YES! 🎉</h2>
+        <p>Thank you, ${recipient}. You just made ${sender}'s day. How about we celebrate with milk tea or a quick call?</p>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px">
+          <button class="btn no" id="laterBtn">Maybe later</button>
+          <a class="btn yes" id="chatBtn" href="https://m.me/" target="_blank" rel="noreferrer">Chat now</a>
+        </div>`;
+      modal.appendChild(box);
+      document.body.appendChild(modal);
+      document.getElementById('laterBtn').addEventListener('click', ()=> modal.remove());
+    }
+
+    function fakeSubmit(form){
+      const btn = form.querySelector('button[type="submit"]');
+      const prev = btn.textContent; btn.disabled = true; btn.textContent = 'Sending…';
+      setTimeout(()=>{ btn.textContent = 'Sent ✓'; btn.style.borderColor = 'transparent'; btn.style.background = 'var(--good)'; btn.style.color = '#102016'; setTimeout(()=>{ btn.disabled=false; btn.textContent = prev; btn.style.background=''; btn.style.color=''; }, 2400); }, 1000);
+    }
+  </script>
+</body>
+</html>
